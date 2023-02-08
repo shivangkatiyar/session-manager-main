@@ -1,0 +1,8 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:44477",
+"LaunchCommand": "npm start",
+"WorkingDirectory": "C:\\Users\\MAQ\\Downloads\\session-manager-main (1)\\session-manager-main\\ClientApp\\",
+"MaxTimeoutInSeconds": "120"
+}
+}
