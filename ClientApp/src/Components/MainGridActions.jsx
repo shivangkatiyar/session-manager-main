@@ -1,17 +1,22 @@
-import React from "react";
+import React,{useState} from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Delete, Edit, Preview } from "@mui/icons-material";
+import Popup from 'reactjs-popup';
+import AddLogic from "./AddLogic";
+import PopulateLogic from "./PopulateLogic";
 
 
-function MainGridActions(props) {
-
+function MainGridActions(props,{finalClickInfo}) {
+    // const [data, setData] = useState(jsonData.sessionId)
     return (
         <Box>
-            <Tooltip title='view grid details'>
-                <IconButton >
-                    <Preview />
-                </IconButton>
-            </Tooltip>
+            <Popup trigger = {
+            <Tooltip title='view grid details'><IconButton ><Preview/></IconButton></Tooltip>} modal nested>{
+                close => (
+                    <PopulateLogic finalClickInfo = {finalClickInfo} handleTogglePopup = {close}/>
+                )    
+            }
+            </Popup>
             <Tooltip title='Edit grid'>
                 <IconButton >
                     <Edit />

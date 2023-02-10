@@ -2,21 +2,8 @@ import React, { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 import { GridRowEditStartReasons } from "@mui/x-data-grid";
 
-function AddSession({ sessions, setSessions,jsonData, setJsonData, handleTogglePopup  }) {
-    // constructor() {
-    //     super();
-    //     this.state = {
-    //         id:jsonData.Topic_Item_Activity,
-    //         Topic_Item_Activity: "",
-    //         items: [],
-    //     };
-    // }
-    // onUpdate = (item) => {
-    //     const updateData = this.state.items.map((x) =>
-    //     x.id === item.id ? { ...x, Topic_Item_Activity: item:newFirstname} : x
-    //     );
-    //     this.setState({items: updateData});
-    // }
+function PopulateLogic({jsonData, setJsonData, handleTogglePopup }) {
+
 
     const [addFormData, setAddFormData] = useState({
         id: "",
@@ -44,7 +31,7 @@ function AddSession({ sessions, setSessions,jsonData, setJsonData, handleToggleP
         newFormData[fieldName] = fieldValue;
         setAddFormData(newFormData);
         // console.log(event);
-
+  
     };
 
     //add -> backend -> grid refresh
@@ -70,14 +57,6 @@ function AddSession({ sessions, setSessions,jsonData, setJsonData, handleToggleP
         };
         setJsonData([...jsonData, newSession]);
     };
-
-    // fetch("https://localhost:44477", { 
-
-    //     method: 'POST',
-    //     mode: 'cors',
-    //     body: JSON.stringify(jsonData) 
-
-    // })
 
 
     return (
@@ -139,7 +118,7 @@ function AddSession({ sessions, setSessions,jsonData, setJsonData, handleToggleP
                         <label>Description</label>
                         <textarea name="Description"  type="text" required="required" placeholder="Description" onChange={handleAddFormChange} ></textarea>
                         <label>No. of participants</label>
-                        <textarea name="participantCount"  type="text" required="required" placeholder="No_of_Participants" onChange={handleAddFormChange} ></textarea>
+                        <textarea name="participantCount" type="text" required="required" placeholder="No_of_Participants" onChange={handleAddFormChange} ></textarea>
                     </div>
                     <div class="form-control"><label>Teams Invite</label>
                         <textarea name="Teams_Invite" type="text" required="required" placeholder="https://msteams" onChange={handleAddFormChange} ></textarea>
@@ -162,4 +141,4 @@ function AddSession({ sessions, setSessions,jsonData, setJsonData, handleToggleP
         </div>
     )
 }
-export default AddSession
+export default PopulateLogic

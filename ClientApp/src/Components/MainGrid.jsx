@@ -8,13 +8,28 @@ import AddLogic from "./AddLogic";
 
 
 function MainGrid({ sessions, setSessions},props) {
-     const [deletedRows, setDeletedRows] = useState([]);
+    //  const [deletedRows, setDeletedRows] = useState([]);
 
-     const handleRowSelection = (e) =>{
+    //  const handleRowSelection = (e) =>{
 
-      setDeletedRows([...deletedRows, ...sessions.filter((r) => r.id === e.data.id)]);
-      console.log(...deletedRows);
-     };
+    //   setDeletedRows([...deletedRows, ...sessions.filter((r) => r.id === e.data.id)]);
+    //   console.log(...deletedRows);
+    //  };
+
+    //  const selectDistinct = () => {
+
+    //  }
+     const onRowClick = (state, rowInfo, column, instance) => {
+        return {
+            onClick: e => {
+                console.log('A Td Element was clicked!')
+                console.log('it produced this event:', e)
+                console.log('It was in this column:', column)
+                console.log('It was in this row:', rowInfo)
+                console.log('It was in this table instance:', instance)
+            }
+        }
+    }
 
      
   
@@ -34,7 +49,7 @@ function MainGrid({ sessions, setSessions},props) {
         { field: "Training_Area", headerName: "Training Area",flex:1, headerClassName: 'super-app-theme--header' }, 
         { field: "Training_Type", headerName: "Training Type",flex:1, headerClassName: 'super-app-theme--header' },
         { field: "Actions", headerName:"Actions", flex:1, headerClassName: 'super-app-theme--header',
-        renderCell: (params) => <MainGridActions {...{params}} onClick={console.log(props.key)}/>
+        renderCell: (params) => <MainGridActions {...{params}} onClick={onRowClick} setData = {jsonData}/>
       },
     ];
     const [jsonData, setJsonData] = useState([])
@@ -46,11 +61,19 @@ function MainGrid({ sessions, setSessions},props) {
   
     }, [])
 
-
+    
     const [showPopup, setShowPopup] = useState(false);
     const handleTogglePopup = () => {
         setShowPopup(!showPopup);
     };
+
+    const [finalClickInfo, setFinalClickInfo] = useState(null);
+
+    const handleOnCellClick = (params) => {
+        setFinalClickInfo(params);
+
+        console.log(finalClickInfo)
+      };
 
     return (
         <>
@@ -62,17 +85,19 @@ function MainGrid({ sessions, setSessions},props) {
                                 nested>{
                                     close =>
                                     (
-                                        <AddLogic sessions={sessions} setSessions={setSessions} handleTogglePopup = {close}/>
+                                        <AddLogic jsonData = {jsonData} setJsonData = {setJsonData} handleTogglePopup = {close}/>
                                     )
                                 }
                             </Popup>
                         </div>
                     </div>
                     <div style={{ height: 750, width: "100%" }}>
-                      
-                        <DataGrid  columns={columns} rows={jsonData}  getRowId={(key) =>  key.sessionId} onRowSelected = {handleRowSelection}/>
-
-        
+                        <DataGrid  columns={columns} rows={jsonData}  getRowId={(key) =>  key.sessionId}  onCellClick={handleOnCellClick}  />
+                        {finalClickInfo &&
+                                `Final clicked id = ${finalClickInfo.participantCount}, 
+                                 Final clicked field = ${finalClickInfo.participantCount}, 
+                                 Final clicked value = ${finalClickInfo.participantCount}`
+                        }
                     </div>
                 </div>
             </div>
