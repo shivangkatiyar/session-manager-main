@@ -17,11 +17,13 @@ function MainGridActions(props,{finalClickInfo}) {
                 )    
             }
             </Popup>
-            <Tooltip title='Edit grid'>
-                <IconButton >
-                    <Edit />
-                </IconButton>
-            </Tooltip>
+            <Popup trigger = {
+            <Tooltip title='Edit grid'><IconButton ><Edit/></IconButton></Tooltip>} modal nested>{
+                close => (
+                    <PopulateLogic finalClickInfo = {finalClickInfo} handleTogglePopup = {close}/>
+                )    
+            }
+            </Popup>
             <Tooltip title='Delete row'>
                 <IconButton >
                     <Delete />
