@@ -6,21 +6,21 @@ import AddLogic from "./AddLogic";
 import PopulateLogic from "./PopulateLogic";
 
 
-function MainGridActions(props,{finalClickInfo}) {
-    // const [data, setData] = useState(jsonData.sessionId)
+function MainGridActions(props) {
+
     return (
         <Box>
             <Popup trigger = {
             <Tooltip title='view grid details'><IconButton ><Preview/></IconButton></Tooltip>} modal nested>{
                 close => (
-                    <PopulateLogic finalClickInfo = {finalClickInfo} handleTogglePopup = {close}/>
+                    <AddLogic jsonData = {props.data.filter(row => row.sessionId === props.params.row.sessionId)[0]} handleTogglePopup = {close}/>
                 )    
             }
             </Popup>
             <Popup trigger = {
             <Tooltip title='Edit grid'><IconButton ><Edit/></IconButton></Tooltip>} modal nested>{
                 close => (
-                    <PopulateLogic finalClickInfo = {finalClickInfo} handleTogglePopup = {close}/>
+                    <AddLogic finalClickInfo = {props.finalClickInfo} handleTogglePopup = {close}/>
                 )    
             }
             </Popup>

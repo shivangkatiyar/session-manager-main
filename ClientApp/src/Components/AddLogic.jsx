@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 import { GridRowEditStartReasons } from "@mui/x-data-grid";
 
-function AddSession({ sessions, setSessions,jsonData, setJsonData, handleTogglePopup  }) {
+function AddSession({jsonData, setJsonData, handleTogglePopup, data}) {
     // constructor() {
     //     super();
     //     this.state = {
@@ -18,21 +18,8 @@ function AddSession({ sessions, setSessions,jsonData, setJsonData, handleToggleP
     //     this.setState({items: updateData});
     // }
 
-    const [addFormData, setAddFormData] = useState({
-        id: "",
-        sessionId: "",
-        Contribution_Type: "",
-        Date: "",
-        Topic_Item_Activity: "",
-        participantCount: "",
-        Duration: "",
-        Contributor_Email_Id: "",
-        EmpID: "",
-        SessionID: "",
-        Description: "",
-        Training_Type: "",
-        Training_Area: ""
-    })
+    const [addFormData, setAddFormData] = useState(jsonData)
+    console.log(data)
 
     const handleAddFormChange = (event) => {
         event.preventDefault();
@@ -66,9 +53,10 @@ function AddSession({ sessions, setSessions,jsonData, setJsonData, handleToggleP
             SessionID: addFormData.SessionID,
             Description: addFormData.Description,
             Training_Type: addFormData.Training_Type,
-            Training_Area: addFormData.Training_Area
+            Training_Area: addFormData.Training_Area,
+            Teams_Invite: addFormData.Teams_Invite
         };
-        setJsonData([...jsonData, newSession]);
+        setJsonData([...data, newSession]);
     };
 
     // fetch("https://localhost:44477", { 
@@ -89,7 +77,7 @@ function AddSession({ sessions, setSessions,jsonData, setJsonData, handleToggleP
                     <hr />
                     <div class="form-control">
                         <label>Training Type</label>
-                        <select name="Training_Type" onChange={handleAddFormChange} required="required">
+                        <select name="Training_Type" onChange={handleAddFormChange} value = {jsonData?.Training_Type} required="required">
                             <option hidden>Training Type</option>
                             <option value="Bootcamp">Bootcamp</option>
                             <option value="Extended Bootcamp">Extended Bootcamp</option>
@@ -100,7 +88,7 @@ function AddSession({ sessions, setSessions,jsonData, setJsonData, handleToggleP
                             <option value="LDP">LDP</option>
                         </select></div><div class="form-control">
                         <label>Training Area</label>
-                        <select name="Training_Area" onChange={handleAddFormChange} required="required">
+                        <select name="Training_Area" onChange={handleAddFormChange} value = {jsonData?.Training_Area} required="required">
                             <option hidden>Training Area</option>
                             <option value="SQL">SQL</option>
                             <option value="BI">BI</option>
@@ -112,18 +100,25 @@ function AddSession({ sessions, setSessions,jsonData, setJsonData, handleToggleP
                             <option value="Domain">Domain</option>
                             <option value="Power-BI">Power-BI</option>
                             <option value="Others">Others</option> </select>
-                    </div></div><div class="form-group" id="form-group-3">
+                    </div>
+                    </div>
+                <div class="form-group" id="form-group-3">
+                <div class="form-control">
+                        <label>SessionId</label>
+                        <input name="sessionId" value = {addFormData?.sessionId} required="required" id="field2" type="text" placeholder="SessionId" onChange={handleAddFormChange} />
+                    </div>
                     <div class="form-control">
                         <label>Date</label>
-                        <input name="Date" required="required" id="field2" type="Date" placeholder="Date" onChange={handleAddFormChange} />
+                        <input name="Date" value = {addFormData?.Date} required="required" id="field2" type="Date" placeholder="Date" onChange={handleAddFormChange} />
                     </div>
                 </div>
                 <div class="form-group" id="form-group-1"><div class="form-control">
                     <label>Contributor Email Id</label>
-                    <input type="text" name="Contributor_Email_Id" required="required" id="field6" placeholder="Contributor Email Id" onChange={handleAddFormChange} />
+                    <input type="text" name="Contributor_Email_Id" value={addFormData?.Contributor_Email_Id} required="required" id="field6" placeholder="Contributor Email Id" onChange={handleAddFormChange} />
                 </div>
                     <div class="form-control">
-                        <label>Contribution type</label><select name="Contribution_Type" id="field1" onChange={handleAddFormChange}>
+                        <label>Contribution type</label>
+                        <select name="Contribution_Type" value={addFormData?.Contribution_Type}id="field1" onChange={handleAddFormChange}>
                             <option hidden>Contribution Type</option><option value="Create/update content">Create/update content</option>
                             <option value="Deliver/Mentor session">Deliver/Mentor session</option>
                             <option value="Review assignments">Review assignments</option>
@@ -133,16 +128,17 @@ function AddSession({ sessions, setSessions,jsonData, setJsonData, handleToggleP
                             <option value="Onboard content">Onboard content</option> </select></div>
                 </div>
                 <div class="form-group" id="form-group-3"><div class="form-control">
-                    <label>Topic/Item/Activity</label><textarea name="Topic_Item_Activity" type="text" required="required" placeholder="Topic/Item/Activity" onChange={handleAddFormChange} >
+                    <label>Topic/Item/Activity</label>
+                    <textarea name="Topic_Item_Activity" value = {addFormData?.Topic_Item_Activity} type="text" required="required" placeholder="Topic/Item/Activity" onChange={handleAddFormChange} >
                     </textarea></div>
                     <div class="form-control">
                         <label>Description</label>
-                        <textarea name="Description"  type="text" required="required" placeholder="Description" onChange={handleAddFormChange} ></textarea>
+                        <textarea name="Description" value={addFormData?.Description} type="text" required="required" placeholder="Description" onChange={handleAddFormChange} ></textarea>
                         <label>No. of participants</label>
-                        <textarea name="participantCount"  type="text" required="required" placeholder="No_of_Participants" onChange={handleAddFormChange} ></textarea>
+                        <textarea name="participantCount" value = {addFormData?.participantCount} type="text" required="required" placeholder="No_of_Participants" onChange={handleAddFormChange} ></textarea>
                     </div>
                     <div class="form-control"><label>Teams Invite</label>
-                        <textarea name="Teams_Invite" type="text" required="required" placeholder="https://msteams" onChange={handleAddFormChange} ></textarea>
+                        <textarea name="Teams_Invite" type="text" value={addFormData?.Teams_Invite} required="required" placeholder="https://msteams" onChange={handleAddFormChange} ></textarea>
                     </div>
                 </div>
                 <div class="form-group" id="form-group-4" style={{ display: "flex", justifyContent: "flex-end" }}>

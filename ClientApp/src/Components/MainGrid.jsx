@@ -7,7 +7,7 @@ import AddLogic from "./AddLogic";
 
 
 
-function MainGrid({ sessions, setSessions},props) {
+function MainGrid() {
     //  const [deletedRows, setDeletedRows] = useState([]);
 
     //  const handleRowSelection = (e) =>{
@@ -19,6 +19,24 @@ function MainGrid({ sessions, setSessions},props) {
     //  const selectDistinct = () => {
 
     //  }
+
+    const dev  = {
+        id: "",
+        sessionId: "",
+        Contribution_Type: "",
+        Date: "",
+        Topic_Item_Activity: "",
+        participantCount: "",
+        Duration: "",
+        Contributor_Email_Id: "",
+        EmpID: "",
+        SessionID: "",
+        Description: "",
+        Training_Type: "",
+        Training_Area: "",
+        Teams_Invite: ""
+    }
+
      const onRowClick = (state, rowInfo, column, instance) => {
         return {
             onClick: e => {
@@ -48,11 +66,14 @@ function MainGrid({ sessions, setSessions},props) {
         { field: "Description", headerName: "Description",flex:1, headerClassName: 'super-app-theme--header' },
         { field: "Training_Area", headerName: "Training Area",flex:1, headerClassName: 'super-app-theme--header' }, 
         { field: "Training_Type", headerName: "Training Type",flex:1, headerClassName: 'super-app-theme--header' },
+        {field: "Teams_Invite", headerName: "Teams Invite", flex:1, headerClassName: 'super-app-theme--header'},
         { field: "Actions", headerName:"Actions", flex:1, headerClassName: 'super-app-theme--header',
-        renderCell: (params) => <MainGridActions {...{params}} onClick={onRowClick} setData = {jsonData}/>
+        
+        renderCell: (params) => <MainGridActions {...{params, val}} onClick={onRowClick} data={jsonData}/>
       },
     ];
     const [jsonData, setJsonData] = useState([])
+    const [val, setVal] = useState(dev)
 
       useEffect(() => {
       fetch("https://localhost:44477/session")
@@ -61,6 +82,8 @@ function MainGrid({ sessions, setSessions},props) {
   
     }, [])
 
+
+
     
     const [showPopup, setShowPopup] = useState(false);
     const handleTogglePopup = () => {
@@ -68,12 +91,6 @@ function MainGrid({ sessions, setSessions},props) {
     };
 
     const [finalClickInfo, setFinalClickInfo] = useState(null);
-
-    const handleOnCellClick = (params) => {
-        setFinalClickInfo(params);
-
-        console.log(finalClickInfo)
-      };
 
     return (
         <>
@@ -85,18 +102,18 @@ function MainGrid({ sessions, setSessions},props) {
                                 nested>{
                                     close =>
                                     (
-                                        <AddLogic jsonData = {jsonData} setJsonData = {setJsonData} handleTogglePopup = {close}/>
+                                        <AddLogic data = {jsonData} setJsonData = {setJsonData} handleTogglePopup = {close} val = {val}/>
                                     )
                                 }
                             </Popup>
                         </div>
                     </div>
                     <div style={{ height: 750, width: "100%" }}>
-                        <DataGrid  columns={columns} rows={jsonData}  getRowId={(key) =>  key.sessionId}  onCellClick={handleOnCellClick}  />
+                        <DataGrid  columns={columns} rows={jsonData}  getRowId={(key) =>  key.sessionId}  />
                         {finalClickInfo &&
-                                `Final clicked id = ${finalClickInfo.participantCount}, 
-                                 Final clicked field = ${finalClickInfo.participantCount}, 
-                                 Final clicked value = ${finalClickInfo.participantCount}`
+                                `Final clicked id = ${finalClickInfo.val}, 
+                                 Final clicked field = ${finalClickInfo.val}, 
+                                 Final clicked value = ${finalClickInfo.val}`
                         }
                     </div>
                 </div>
